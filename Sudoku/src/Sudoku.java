@@ -157,8 +157,59 @@ public class Sudoku {
 		return vals;
 	}
 	
+	private static boolean matchPosVals(int row1, int col1, int row2, int col2) {
+		boolean bool = true;
+		for(int i = 0; i < 9; ++i) {
+			bool &= (sudokuBoard.getPosVal(row1, row2, i) == sudokuBoard.getPosVal(row2, col2, i));
+		}
+		return bool;
+	}
+	
+	private static boolean matchRow(int row, int col) {
+		boolean bool = false;
+		for(int j = col + 1; j < 9; ++j) {
+			bool |= matchPosVals(row, col, row, j);
+		}
+		return bool;
+	}
+	
+	private static boolean matchCol(int row, int col) {
+		boolean bool = false;
+		for(int i = row + 1; i < 9; ++i) {
+			bool |= matchPosVals(row, col, i, col);
+		}
+		return bool;
+	}
+	
+	private static boolean matchReg(int row, int col) {
+		boolean bool = false;
+		int region = getRegion(row, col);
+		int endRow = ((region / 3) *3) +2;
+		int endCol = (((region - 1) % 3) * 3) + 2;
+		for(int i = row; i < endRow; ++i) {
+			for(int j = col; j < endCol; ++j) {
+				if(i != row && j != col) {
+					bool |= matchPosVals(row, col, i, j);
+				}
+			}
+		}
+		return bool;
+	}
+	
 	private static pos findDuple() {
 		pos position = new pos();
+		for(int i = 0; i < 9; ++i) {
+			for(int j = 0; j < 9; ++j) {
+				if((matchRow(i, j)) || 
+						(matchCol(i, j)) || 
+						(matchReg(i, j))) {
+					position.row = i;
+					position.col = j;
+					System.out.println("Duple found! " + i + " " + j);
+					return position;
+				}
+			}
+		}
 		return position;
 	}
 	
