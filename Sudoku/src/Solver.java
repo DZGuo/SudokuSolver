@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Solver {
 	
-	public SudokuBoard sudokuBoard = new SudokuBoard();
+	public Sudoku sudokuBoard = new Sudoku();
 	
 	public static void main(String [] args)	{
 		Scanner reader = new Scanner(System.in);
@@ -11,13 +11,14 @@ public class Solver {
 		for(int i = 0; i < 9; ++i) {
 			for(int j = 0; j < 9; ++j) {
 				in = reader.nextInt();
-				SudokuBoard.set(i,  j, in);
+				Sudoku.set(i,  j, in);
 			}
 		}
 		System.out.println("Initial Board:");
-		SudokuBoard.printBoard();
-		SudokuBoard.solve();
-		SudokuBoard.printBoard();
+		Sudoku.printBoard();
+		Sudoku.solve();
+		System.out.println("Solved Board:");
+		Sudoku.printBoard();
 		reader.close();
 	}
 }
