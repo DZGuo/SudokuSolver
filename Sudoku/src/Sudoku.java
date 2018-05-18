@@ -196,13 +196,25 @@ public class Sudoku {
 		return bool;
 	}
 	
+	private static int numPosVal(int row, int col) {
+		int num = 0;
+		for(int i = 0; i < 9; ++i) {
+			if(sudokuBoard.getPosVal(row, col, i)) {
+				num += 1;
+			}
+		}
+		return num;
+	}
+	
 	private static pos findDuple() {
 		pos position = new pos();
 		for(int i = 0; i < 9; ++i) {
 			for(int j = 0; j < 9; ++j) {
-				if((matchRow(i, j)) || 
-						(matchCol(i, j)) || 
-						(matchReg(i, j))) {
+				if(((matchRow(i, j)) 
+						|| (matchCol(i, j)) 
+						|| (matchReg(i, j))) 
+						&& (numPosVal(i, j) == 2) 
+						&& sudokuBoard.get(i, j) == 0) {
 					position.row = i;
 					position.col = j;
 					System.out.println("Duple found! " + i + " " + j);
